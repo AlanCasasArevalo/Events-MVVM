@@ -14,6 +14,8 @@ final class TitleSubtitleCell: UITableViewCell {
         UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
     }()
 
+    private let photoImage: UIImageView = UIImageView()
+
     private(set) var viewModel: TitleSubtitleCellViewModel?
 
     override init(style: CellStyle, reuseIdentifier: String?) {
@@ -35,6 +37,12 @@ final class TitleSubtitleCell: UITableViewCell {
 
         subTitleTextField.inputView = viewModel.type == .text ? nil : datePickerView
         subTitleTextField.inputAccessoryView = viewModel.type == .text ? nil : toolBar
+
+        photoImage.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        photoImage.isHidden = viewModel.type != .image
+        subTitleTextField.isHidden = viewModel.type == .image
+
+        verticalStackView.spacing = viewModel.type == .image ? 15 : verticalStackView.spacing
     }
 
     func setupViews() {
@@ -47,21 +55,26 @@ final class TitleSubtitleCell: UITableViewCell {
         }
         toolBar.setItems([doneButton], animated: false)
         datePickerView.datePickerMode = .date
+
+        photoImage.layer.cornerRadius = 7
     }
 
     func setupHierarchy() {
         contentView.addSubview(verticalStackView)
         verticalStackView.addArrangedSubview(titleLabel)
         verticalStackView.addArrangedSubview(subTitleTextField)
+        verticalStackView.addArrangedSubview(photoImage)
     }
 
     func setupLayout() {
         NSLayoutConstraint.activate([
             verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
             verticalStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: padding),
-            verticalStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: padding),
+            verticalStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -padding),
             verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding)
         ])
+
+        photoImage.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
 
     @objc private func doneButtonTapped () {

@@ -23,6 +23,9 @@ final class AddEventViewModel {
             .titleSubtitle(TitleSubtitleCellViewModel(title: AddEventConstants.titleSubtitleCellName, subTitle: "", placeholder: AddEventConstants.titleSubtitleCellNamePlaceHolder, type: .text, onCellUpdate: {})),
             .titleSubtitle(TitleSubtitleCellViewModel(title: AddEventConstants.titleSubtitleCellDate, subTitle: "", placeholder: AddEventConstants.titleSubtitleCellDatePlaceHolder, type: .date, onCellUpdate: { [weak self] in
                 self?.onUpdate()
+            })),
+            .titleSubtitle(TitleSubtitleCellViewModel(title: AddEventConstants.titleSubtitleCellBackground, subTitle: "", placeholder: AddEventConstants.titleSubtitleCellDatePlaceHolder, type: .image, onCellUpdate: { [weak self] in
+                self?.onUpdate()
             }))
         ]
 
@@ -33,7 +36,7 @@ final class AddEventViewModel {
         return cells.count
     }
 
-    func cellModelForRowAt(indexPath: IndexPath) -> Cell{
+    func cellModelForRowAt(indexPath: IndexPath) -> Cell {
         return cells[indexPath.row]
     }
 
@@ -43,11 +46,11 @@ final class AddEventViewModel {
 }
 
 extension AddEventViewModel {
-    func doneButtonTapped () {
+    func doneButtonTapped() {
 
     }
 
-    func cancelButtonTapped () {
+    func cancelButtonTapped() {
 
     }
 }
