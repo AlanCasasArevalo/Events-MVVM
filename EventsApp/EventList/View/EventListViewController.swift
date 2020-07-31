@@ -10,6 +10,8 @@ import UIKit
 
 class EventListViewController: UIViewController {
 
+    var viewModel: EventListViewModel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -29,7 +31,7 @@ class EventListViewController: UIViewController {
 
     func setupNavigation () {
         navigationItem.rightBarButtonItem = getRightNavigationBar()
-        navigationItem.title = EventListConstants.eventListTitle
+        navigationItem.title = viewModel.title
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 
@@ -37,6 +39,6 @@ class EventListViewController: UIViewController {
 
 extension EventListViewController {
     @objc func rightButtonPressed () {
-
+        viewModel.addNewEventTapped()
     }
 }

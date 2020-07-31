@@ -1,5 +1,4 @@
 
-
 import Foundation
 struct CoreDataConstants {
     static let saveDataLocallyName = "name"
