@@ -21,7 +21,17 @@ final class EventListAssembly: AssemblyProtocol {
     func startAddEvent() {
         let addEventAssembly = AddEventAssembly(navigationController: navigationController)
         assemblies.append(addEventAssembly)
+        addEventAssembly.parentAssembly = self
         addEventAssembly.start()
     }
+
+    func childDidFinish(assembly: AssemblyProtocol) {
+        if let index = assemblies.firstIndex(where: { firstAssembly -> Bool in
+          return assembly === firstAssembly
+        }) {
+            assemblies.remove(at: index)
+        }
+    }
+
 }
 
