@@ -81,11 +81,22 @@ extension AddEventViewController: UITableViewDelegate, UITableViewDataSource {
         case .titleSubtitle(let titleSubtitleViewModel):
            let cell = tableView.dequeueReusableCell(withIdentifier: AddEventConstants.titleSubtitleCell, for: indexPath) as! TitleSubtitleCell
             cell.updateCell(viewModel: titleSubtitleViewModel)
+            cell.subTitleTextField.delegate = self
             return cell
-        case .titleImage:
-            return UITableViewCell()
-
         }
     }
+}
 
+extension AddEventViewController: UITextFieldDelegate {
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let currentText = textField.text else { return false }
+        let text = currentText + string
+
+        let point = textField.convert(textField.bounds.origin, to: eventTableView)
+        if let indexPath = eventTableView.indexPathForRow(at: point) {
+            viewModel.updateText(indexPath: indexPath, subtitle: text)
+        }
+
+        return true
+    }
 }

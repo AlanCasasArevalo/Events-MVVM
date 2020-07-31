@@ -4,9 +4,17 @@ import UIKit
 final class TitleSubtitleCell: UITableViewCell {
 
     let titleLabel = UILabel()
-    private(set) var subTitleTextField = UITextField()
+    var subTitleTextField = UITextField()
     var verticalStackView = UIStackView()
     private let padding: CGFloat = 15
+
+    let datePickerView = UIDatePicker()
+    let toolBar = UIToolbar(frame: .init(x: 0, y: 0, width: 20, height: 50))
+    lazy var doneButton: UIBarButtonItem = {
+        UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
+    }()
+
+    private(set) var viewModel: TitleSubtitleCellViewModel?
 
     override init(style: CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -20,9 +28,13 @@ final class TitleSubtitleCell: UITableViewCell {
     }
 
     func updateCell(viewModel: TitleSubtitleCellViewModel) {
+        self.viewModel = viewModel
         titleLabel.text = viewModel.title
         subTitleTextField.text = viewModel.subTitle
         subTitleTextField.placeholder = viewModel.placeholder
+
+        subTitleTextField.inputView = viewModel.type == .text ? nil : datePickerView
+        subTitleTextField.inputAccessoryView = viewModel.type == .text ? nil : toolBar
     }
 
     func setupViews() {
@@ -33,6 +45,8 @@ final class TitleSubtitleCell: UITableViewCell {
         [verticalStackView, titleLabel, subTitleTextField].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+        toolBar.setItems([doneButton], animated: false)
+        datePickerView.datePickerMode = .date
     }
 
     func setupHierarchy() {
@@ -48,5 +62,9 @@ final class TitleSubtitleCell: UITableViewCell {
             verticalStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: padding),
             verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding)
         ])
+    }
+
+    @objc private func doneButtonTapped () {
+        self.viewModel?.updateDate(date: datePickerView.date)
     }
 }

@@ -6,7 +6,6 @@ final class AddEventViewModel {
 
     enum Cell {
         case titleSubtitle(TitleSubtitleCellViewModel)
-        case titleImage
     }
 
     private(set) var cells: [AddEventViewModel.Cell] = []
@@ -21,8 +20,10 @@ final class AddEventViewModel {
 
     func viewDidLoad() {
         cells = [
-            .titleSubtitle(TitleSubtitleCellViewModel(title: AddEventConstants.titleSubtitleCellName, subTitle: "", placeholder: AddEventConstants.titleSubtitleCellNamePlaceHolder)),
-            .titleSubtitle(TitleSubtitleCellViewModel(title: AddEventConstants.titleSubtitleCellDate, subTitle: "", placeholder: AddEventConstants.titleSubtitleCellDatePlaceHolder))
+            .titleSubtitle(TitleSubtitleCellViewModel(title: AddEventConstants.titleSubtitleCellName, subTitle: "", placeholder: AddEventConstants.titleSubtitleCellNamePlaceHolder, type: .text, onCellUpdate: {})),
+            .titleSubtitle(TitleSubtitleCellViewModel(title: AddEventConstants.titleSubtitleCellDate, subTitle: "", placeholder: AddEventConstants.titleSubtitleCellDatePlaceHolder, type: .date, onCellUpdate: { [weak self] in
+                self?.onUpdate()
+            }))
         ]
 
         onUpdate()
@@ -48,5 +49,14 @@ extension AddEventViewModel {
 
     func cancelButtonTapped () {
 
+    }
+}
+
+extension AddEventViewModel {
+    func updateText(indexPath: IndexPath, subtitle: String) {
+        switch cells[indexPath.row] {
+        case .titleSubtitle(let titleSubtitleModel):
+            titleSubtitleModel.updateModel(subtitle: subtitle)
+        }
     }
 }
