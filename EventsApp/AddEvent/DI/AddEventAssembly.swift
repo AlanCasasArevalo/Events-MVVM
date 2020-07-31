@@ -15,11 +15,13 @@ final class AddEventAssembly: AssemblyProtocol {
     }
 
     func start() {
+        let modalNavigationController = UINavigationController()
         let addEventVC = AddEventViewController.init()
+        modalNavigationController.setViewControllers([addEventVC], animated: true)
         let addEventViewModel = AddEventViewModel()
         addEventViewModel.assembly = self
         addEventVC.viewModel = addEventViewModel
-        navigationController.present(addEventVC, animated: true)
+        navigationController.present(modalNavigationController, animated: true)
     }
 
     func didFinishAddEvent () {
