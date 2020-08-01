@@ -23,7 +23,7 @@ final class AddEventViewModel {
 
     lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/YYY"
+        dateFormatter.dateFormat = "dd.MM.yyyy"
         return dateFormatter
     }()
 
@@ -76,7 +76,10 @@ private extension AddEventViewModel {
 
 extension AddEventViewModel {
     func doneButtonTapped() {
-        guard let name = nameCellViewModel?.subTitle, let dateString = dateCellViewModel?.subTitle, let date = dateFormatter.date(from: dateString) ,  let image = backgroundImageCellViewModel?.image  else { return }
+        guard let name = nameCellViewModel?.subTitle,
+              let dateString = dateCellViewModel?.subTitle,
+              let date = dateFormatter.date(from: dateString),
+              let image = backgroundImageCellViewModel?.image  else { return }
         coreDataManager.saveDataLocally(name: name, date: date, image: image)
         assembly?.didFinishSaveEvent()
     }

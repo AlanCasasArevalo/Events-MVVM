@@ -14,7 +14,7 @@ final class TitleSubtitleCellViewModel {
     let type: CellType
     lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/YYY"
+        dateFormatter.dateFormat = "dd.MM.yyyy"
         return dateFormatter
     }()
 

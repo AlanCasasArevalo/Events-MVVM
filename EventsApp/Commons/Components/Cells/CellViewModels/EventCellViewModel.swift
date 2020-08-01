@@ -2,32 +2,37 @@
 import UIKit
 
 struct EventCellViewModel {
-    var yearText: String {
-        "1 year"
-    }
 
-    var mountText: String {
-        "2 mounts"
-    }
+    let date = Date()
 
-    var weekText: String {
-        "2 weeks"
-    }
-
-    var dayText: String {
-        "1 days"
+    var timeRemainingString: [String] {
+        guard let endDate = event.date else { return [] }
+        let dateArray = date.timeRemaining(endDate: endDate).components(separatedBy: ",") 
+        return dateArray
     }
 
     var dateText: String {
-        "25 Mar 2020"
+        guard let dateEvent = event.date else { return "" }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMM yyyy"
+        return dateFormatter.string(from: dateEvent)
     }
 
     var eventName: String {
-        "Barbados"
+        guard let nameOfEvent = event.name else { return "" }
+        return nameOfEvent
     }
 
     var backgroundImage: UIImage {
-        #imageLiteral(resourceName: "newYear")
+        guard let backgroundImageData = event.image else { return UIImage() }
+        guard let background = UIImage(data: backgroundImageData) else { return UIImage() }
+        return background
+    }
+
+    private let event: Event
+
+    init(event: Event) {
+        self.event = event
     }
 
 }
