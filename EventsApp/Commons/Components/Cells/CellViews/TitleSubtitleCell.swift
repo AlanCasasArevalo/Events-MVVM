@@ -58,7 +58,7 @@ final class TitleSubtitleCell: UITableViewCell {
         toolBar.setItems([doneButton], animated: false)
         datePickerView.datePickerMode = .date
 
-        photoImage.layer.cornerRadius = 7
+        photoImage.layer.cornerRadius = 10
     }
 
     func setupHierarchy() {
