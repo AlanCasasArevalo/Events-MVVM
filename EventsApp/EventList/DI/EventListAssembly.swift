@@ -12,7 +12,8 @@ final class EventListAssembly: AssemblyProtocol {
 
     func start() {
         let eventListVC = EventListViewController.init()
-        let eventListViewModel = EventListViewModel()
+        let coreDataManager = CoreDataManager()
+        let eventListViewModel = EventListViewModel(coreDataManager: coreDataManager)
         eventListViewModel.assembly = self
         eventListVC.viewModel = eventListViewModel
         navigationController.setViewControllers([eventListVC], animated: false)
