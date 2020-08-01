@@ -1,6 +1,3 @@
-//
-// Created by Everis on 31/07/2020.
-//
 
 import Foundation
 

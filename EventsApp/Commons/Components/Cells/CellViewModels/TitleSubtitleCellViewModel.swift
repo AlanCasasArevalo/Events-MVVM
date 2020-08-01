@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 final class TitleSubtitleCellViewModel {
 
@@ -19,6 +19,7 @@ final class TitleSubtitleCellViewModel {
     }()
 
     private(set) var onCellUpdate: () -> () = {}
+    private(set) var image: UIImage?
 
     init(title: String, subTitle: String, placeholder: String, type: CellType, onCellUpdate: @escaping () -> ()) {
         self.title = title
@@ -28,13 +29,18 @@ final class TitleSubtitleCellViewModel {
         self.onCellUpdate = onCellUpdate
     }
 
-    func updateModel(subtitle: String) {
+    func update(subtitle: String) {
         self.subTitle = subtitle
     }
 
-    func updateDate(date: Date) {
+    func update(date: Date) {
         let dateString = dateFormatter.string(from: date)
         self.subTitle = dateString
+        onCellUpdate()
+    }
+
+    func update(image: UIImage) {
+        self.image = image
         onCellUpdate()
     }
 

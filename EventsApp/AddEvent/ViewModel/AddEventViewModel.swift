@@ -59,7 +59,19 @@ extension AddEventViewModel {
     func updateText(indexPath: IndexPath, subtitle: String) {
         switch cells[indexPath.row] {
         case .titleSubtitle(let titleSubtitleModel):
-            titleSubtitleModel.updateModel(subtitle: subtitle)
+            titleSubtitleModel.update(subtitle: subtitle)
+        }
+    }
+}
+
+extension AddEventViewModel {
+    func didSelectRow(indexPath: IndexPath) {
+        switch cells[indexPath.row] {
+        case .titleSubtitle(let titleSubtitleCellViewModel):
+            guard titleSubtitleCellViewModel.type == .image else { return }
+            assembly?.showImagePicker { image in
+                titleSubtitleCellViewModel.update(image: image)
+            }
         }
     }
 }

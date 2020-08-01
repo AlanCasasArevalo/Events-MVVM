@@ -85,6 +85,11 @@ extension AddEventViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
     }
+
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didSelectRow(indexPath: indexPath)
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
 }
 
 extension AddEventViewController: UITextFieldDelegate {

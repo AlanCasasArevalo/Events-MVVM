@@ -9,7 +9,7 @@ final class TitleSubtitleCell: UITableViewCell {
     private let padding: CGFloat = 15
 
     let datePickerView = UIDatePicker()
-    let toolBar = UIToolbar(frame: .init(x: 0, y: 0, width: 20, height: 50))
+    let toolBar = UIToolbar(frame: .init(x: 0, y: 0, width: 100, height: 50))
     lazy var doneButton: UIBarButtonItem = {
         UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
     }()
@@ -41,6 +41,8 @@ final class TitleSubtitleCell: UITableViewCell {
         photoImage.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         photoImage.isHidden = viewModel.type != .image
         subTitleTextField.isHidden = viewModel.type == .image
+
+        photoImage.image = viewModel.image
 
         verticalStackView.spacing = viewModel.type == .image ? 15 : verticalStackView.spacing
     }
@@ -78,6 +80,6 @@ final class TitleSubtitleCell: UITableViewCell {
     }
 
     @objc private func doneButtonTapped () {
-        self.viewModel?.updateDate(date: datePickerView.date)
+        self.viewModel?.update(date: datePickerView.date)
     }
 }
