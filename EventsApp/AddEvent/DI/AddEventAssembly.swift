@@ -20,8 +20,7 @@ final class AddEventAssembly: AssemblyProtocol {
         let addEventVC = AddEventViewController.init()
         modalNavigationController?.setViewControllers([addEventVC], animated: true)
         let cellBuilder = EventCellBuilder()
-        let coreDataManager = CoreDataManager()
-        let addEventViewModel = AddEventViewModel(cellBuilder: cellBuilder, coreDataManager: coreDataManager)
+        let addEventViewModel = AddEventViewModel(cellBuilder: cellBuilder)
         addEventViewModel.assembly = self
         addEventVC.viewModel = addEventViewModel
         if let modalNavigationController = modalNavigationController {
@@ -56,6 +55,7 @@ final class AddEventAssembly: AssemblyProtocol {
     }
 
     func didFinishSaveEvent () {
+        parentAssembly?.onSaveEvent()
         navigationController.dismiss(animated: true)
     }
 

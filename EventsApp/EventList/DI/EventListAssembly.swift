@@ -4,6 +4,8 @@ import UIKit
 final class EventListAssembly: AssemblyProtocol {
     private(set) var assemblies: [AssemblyProtocol] = []
 
+    var onSaveEvent = {}
+
     private var navigationController: UINavigationController
 
     init(navigationController: UINavigationController) {
@@ -12,9 +14,9 @@ final class EventListAssembly: AssemblyProtocol {
 
     func start() {
         let eventListVC = EventListViewController.init()
-        let coreDataManager = CoreDataManager()
-        let eventListViewModel = EventListViewModel(coreDataManager: coreDataManager)
+        let eventListViewModel = EventListViewModel()
         eventListViewModel.assembly = self
+        onSaveEvent = eventListViewModel.reloadData
         eventListVC.viewModel = eventListViewModel
         navigationController.setViewControllers([eventListVC], animated: false)
     }
@@ -28,7 +30,7 @@ final class EventListAssembly: AssemblyProtocol {
 
     func childDidFinish(assembly: AssemblyProtocol) {
         if let index = assemblies.firstIndex(where: { firstAssembly -> Bool in
-          return assembly === firstAssembly
+            return assembly === firstAssembly
         }) {
             assemblies.remove(at: index)
         }

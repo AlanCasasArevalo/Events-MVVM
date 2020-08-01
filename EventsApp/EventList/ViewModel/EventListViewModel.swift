@@ -7,6 +7,7 @@ final class EventListViewModel {
     var assembly: EventListAssembly?
 
     private let coreDataManager: CoreDataManager
+    private(set) var cells: [EventListViewModel.Cell] = []
 
     var onUpdate = {}
 
@@ -14,22 +15,22 @@ final class EventListViewModel {
         case eventCell(EventCellViewModel)
     }
 
-    init(coreDataManager: CoreDataManager) {
+    init(coreDataManager: CoreDataManager = CoreDataManager.shared) {
         self.coreDataManager = coreDataManager
     }
 
     func viewDidLoad () {
+        reloadData()
+    }
 
+    func reloadData () {
         let events = coreDataManager.getAllElementsSaved()
-
         cells = events.map { event in
             .eventCell(EventCellViewModel(event: event))
         }
-
         onUpdate()
     }
 
-    private(set) var cells: [EventListViewModel.Cell] = []
 
     func addNewEventTapped () {
         assembly?.startAddEvent()

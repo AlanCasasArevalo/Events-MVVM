@@ -2,6 +2,9 @@ import UIKit
 import CoreData
 
 final class CoreDataManager {
+
+    static let shared = CoreDataManager()
+
     lazy var persistentContainer: NSPersistentContainer = {
         let persistentContainer = NSPersistentContainer(name: ConstantsApp.nameApp)
         persistentContainer.loadPersistentStores { _, error in
