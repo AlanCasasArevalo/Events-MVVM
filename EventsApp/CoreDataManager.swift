@@ -2,6 +2,9 @@ import UIKit
 import CoreData
 
 final class CoreDataManager {
+
+    static let shared = CoreDataManager()
+
     lazy var persistentContainer: NSPersistentContainer = {
         let persistentContainer = NSPersistentContainer(name: ConstantsApp.nameApp)
         persistentContainer.loadPersistentStores { _, error in
@@ -16,7 +19,10 @@ final class CoreDataManager {
 
     func saveDataLocally(name: String, date: Date, image: UIImage) {
         let event = Event(context: manageObjectContext)
-        let imageData = image.jpegData(compressionQuality: 1)
+
+        let resizedImage = image.sameAspectRation(newHeight: 250)
+
+        let imageData = resizedImage.jpegData(compressionQuality: 0.5)
         event.setValue(name, forKey: CoreDataConstants.saveDataLocallyName)
         event.setValue(date, forKey: CoreDataConstants.saveDataLocallyDate)
         event.setValue(imageData, forKey: CoreDataConstants.saveDataLocallyImageData)

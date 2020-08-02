@@ -14,14 +14,14 @@ final class TitleSubtitleCellViewModel {
     let type: CellType
     lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/YYY"
+        dateFormatter.dateFormat = "dd.MM.yyyy"
         return dateFormatter
     }()
 
-    private(set) var onCellUpdate: () -> () = {}
+    private(set) var onCellUpdate: (() -> ())?
     private(set) var image: UIImage?
 
-    init(title: String, subTitle: String, placeholder: String, type: CellType, onCellUpdate: @escaping () -> ()) {
+    init(title: String, subTitle: String, placeholder: String, type: CellType, onCellUpdate: (() -> ())?) {
         self.title = title
         self.subTitle = subTitle
         self.placeholder = placeholder
@@ -36,12 +36,12 @@ final class TitleSubtitleCellViewModel {
     func update(date: Date) {
         let dateString = dateFormatter.string(from: date)
         self.subTitle = dateString
-        onCellUpdate()
+        onCellUpdate?()
     }
 
     func update(image: UIImage) {
         self.image = image
-        onCellUpdate()
+        onCellUpdate?()
     }
 
 }
