@@ -38,8 +38,8 @@ final class EventListAssembly: AssemblyProtocol {
         }
     }
 
-    func onSelect(id: NSManagedObjectID ) {
-        let eventDetail = EventDetailAssembly(navigationController: navigationController)
+    func onSelect(eventId: NSManagedObjectID ) {
+        let eventDetail = EventDetailAssembly(navigationController: navigationController, eventId: eventId)
         assemblies.append(eventDetail)
         eventDetail.parentAssembly = self
         eventDetail.start()

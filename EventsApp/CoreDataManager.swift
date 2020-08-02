@@ -34,7 +34,7 @@ final class CoreDataManager {
         }
     }
 
-    func getAllElementsSaved () -> [Event] {
+    func getAllElementsSaved() -> [Event] {
         do {
             let fetchRequest = NSFetchRequest<Event>(entityName: CoreDataConstants.entityName)
             let events = try manageObjectContext.fetch(fetchRequest)
@@ -42,6 +42,17 @@ final class CoreDataManager {
         } catch let error {
             print(error)
             return [Event]()
+        }
+    }
+
+    func getElementSavedById(elementId: NSManagedObjectID) -> Event? {
+        do {
+            let fetchRequest = NSFetchRequest<Event>(entityName: CoreDataConstants.entityName)
+            let event = try manageObjectContext.existingObject(with: elementId) as? Event
+            return event
+        } catch let error {
+            print(error)
+            return nil
         }
     }
 }

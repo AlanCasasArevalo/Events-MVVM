@@ -1,7 +1,6 @@
-
-
 import Foundation
 import UIKit
+import CoreData
 
 final class EventDetailAssembly: AssemblyProtocol {
     private(set) var assemblies: [AssemblyProtocol] = []
@@ -9,24 +8,21 @@ final class EventDetailAssembly: AssemblyProtocol {
     private var navigationController: UINavigationController
     private var modalNavigationController: UINavigationController?
     weak var parentAssembly: EventListAssembly?
+    private let eventId: NSManagedObjectID
 
-    init(navigationController: UINavigationController){
+    init(navigationController: UINavigationController, eventId: NSManagedObjectID) {
         self.navigationController = navigationController
+        self.eventId = eventId
     }
 
     func start() {
-        self.modalNavigationController = UINavigationController()
         let eventDetailVC = EventDetailViewController.init()
-        modalNavigationController?.setViewControllers([eventDetailVC], animated: true)
-        let eventDetailViewModel = EventDetailViewModel()
-        eventDetailViewModel.assembly = self
+        let eventDetailViewModel = EventDetailViewModel(eventId: eventId)
         eventDetailVC.viewModel = eventDetailViewModel
-        if let modalNavigationController = modalNavigationController {
-            navigationController.present(modalNavigationController, animated: true)
-        }
+        navigationController.present(eventDetailVC, animated: true)
     }
 
-    func didFinish () {
+    func didFinish() {
         parentAssembly?.childDidFinish(assembly: self)
     }
 
