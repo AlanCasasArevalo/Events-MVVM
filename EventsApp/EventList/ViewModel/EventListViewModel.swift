@@ -4,7 +4,7 @@ import Foundation
 final class EventListViewModel {
 
     var title = EventListConstants.eventListTitle
-    var assembly: EventListAssembly?
+    weak var assembly: EventListAssembly?
 
     private let coreDataManager: CoreDataManager
     private(set) var cells: [EventListViewModel.Cell] = []

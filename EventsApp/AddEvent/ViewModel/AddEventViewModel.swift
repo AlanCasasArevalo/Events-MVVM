@@ -12,7 +12,7 @@ final class AddEventViewModel {
 
     var onUpdate: () -> () = {}
 
-    var assembly: AddEventAssembly?
+    weak var assembly: AddEventAssembly?
 
     private var nameCellViewModel: TitleSubtitleCellViewModel?
     private var dateCellViewModel: TitleSubtitleCellViewModel?
@@ -27,7 +27,7 @@ final class AddEventViewModel {
         return dateFormatter
     }()
 
-    init( cellBuilder: EventCellBuilder, coreDataManager: CoreDataManager = CoreDataManager.shared) {
+    init(cellBuilder: EventCellBuilder, coreDataManager: CoreDataManager = CoreDataManager.shared) {
         self.cellBuilder = cellBuilder
         self.coreDataManager = coreDataManager
     }
@@ -55,16 +55,18 @@ final class AddEventViewModel {
 }
 
 private extension AddEventViewModel {
-    private func initializeCellsArray () {
+    private func initializeCellsArray() {
         nameCellViewModel = cellBuilder.makeTitleSubtitleCellViewModel(type: .text, onCellUpdate: nil)
         dateCellViewModel = cellBuilder.makeTitleSubtitleCellViewModel(type: .date, onCellUpdate: { [weak self] in
             self?.onUpdate()
         })
-        backgroundImageCellViewModel = cellBuilder.makeTitleSubtitleCellViewModel(type: .image, onCellUpdate:  { [weak self] in
+        backgroundImageCellViewModel = cellBuilder.makeTitleSubtitleCellViewModel(type: .image, onCellUpdate: { [weak self] in
             self?.onUpdate()
         })
 
-        guard let nameCellViewModel = nameCellViewModel, let dateCellViewModel = dateCellViewModel, let backgroundImageCellViewModel = backgroundImageCellViewModel else { return }
+        guard let nameCellViewModel = nameCellViewModel, let dateCellViewModel = dateCellViewModel, let backgroundImageCellViewModel = backgroundImageCellViewModel else {
+            return
+        }
 
         cells = [
             .titleSubtitle(nameCellViewModel),
@@ -79,7 +81,9 @@ extension AddEventViewModel {
         guard let name = nameCellViewModel?.subTitle,
               let dateString = dateCellViewModel?.subTitle,
               let date = dateFormatter.date(from: dateString),
-              let image = backgroundImageCellViewModel?.image  else { return }
+              let image = backgroundImageCellViewModel?.image else {
+            return
+        }
         coreDataManager.saveDataLocally(name: name, date: date, image: image)
         assembly?.didFinishSaveEvent()
     }
@@ -102,7 +106,9 @@ extension AddEventViewModel {
     func didSelectRow(indexPath: IndexPath) {
         switch cells[indexPath.row] {
         case .titleSubtitle(let titleSubtitleCellViewModel):
-            guard titleSubtitleCellViewModel.type == .image else { return }
+            guard titleSubtitleCellViewModel.type == .image else {
+                return
+            }
             assembly?.showImagePicker { image in
                 titleSubtitleCellViewModel.update(image: image)
             }
