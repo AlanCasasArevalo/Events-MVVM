@@ -1,5 +1,7 @@
 import Foundation
 import UIKit
+import CoreData
+
 
 final class EventListAssembly: AssemblyProtocol {
     private(set) var assemblies: [AssemblyProtocol] = []
@@ -34,6 +36,10 @@ final class EventListAssembly: AssemblyProtocol {
         }) {
             assemblies.remove(at: index)
         }
+    }
+
+    func onSelect(id: NSManagedObjectID ) {
+        print(id)
     }
 
 }

@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 struct EventCellViewModel {
 
@@ -14,6 +15,8 @@ struct EventCellViewModel {
     private var cacheImageKey: String {
         event.objectID.description
     }
+
+    var onSelect: (NSManagedObjectID) -> () = { _ in }
 
     var timeRemainingString: [String] {
         guard let endDate = event.date else {
@@ -56,6 +59,10 @@ struct EventCellViewModel {
                 }
             }
         }
+    }
+
+    func didSelect () {
+        onSelect(event.objectID)
     }
 
 }

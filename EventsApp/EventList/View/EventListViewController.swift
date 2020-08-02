@@ -48,7 +48,7 @@ class EventListViewController: UIViewController {
 
 }
 
-extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
+extension EventListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfRowsInSection()
     }
@@ -60,6 +60,12 @@ extension EventListViewController: UITableViewDelegate, UITableViewDataSource {
             cell.update(viewModel: eventCellViewModel)
             return cell
         }
+    }
+}
+
+extension EventListViewController : UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didSelectRowAt(indexPath: indexPath)
     }
 }
 

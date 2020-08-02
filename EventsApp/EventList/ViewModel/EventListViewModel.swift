@@ -1,4 +1,3 @@
-
 import Foundation
 
 final class EventListViewModel {
@@ -9,7 +8,8 @@ final class EventListViewModel {
     private let coreDataManager: CoreDataManager
     private(set) var cells: [EventListViewModel.Cell] = []
 
-    var onUpdate = {}
+    var onUpdate = {
+    }
 
     enum Cell {
         case eventCell(EventCellViewModel)
@@ -19,20 +19,24 @@ final class EventListViewModel {
         self.coreDataManager = coreDataManager
     }
 
-    func viewDidLoad () {
+    func viewDidLoad() {
         reloadData()
     }
 
-    func reloadData () {
+    func reloadData() {
         let events = coreDataManager.getAllElementsSaved()
         cells = events.map { event in
-            .eventCell(EventCellViewModel(event: event))
+            var eventCellViewModel = EventCellViewModel(event: event)
+            if let assembly = assembly {
+                eventCellViewModel.onSelect = assembly.onSelect
+            }
+            return .eventCell(eventCellViewModel)
         }
         onUpdate()
     }
 
 
-    func addNewEventTapped () {
+    func addNewEventTapped() {
         assembly?.startAddEvent()
     }
 
@@ -49,5 +53,14 @@ extension EventListViewModel {
 
     func cellModelForRowAt(indexPath: IndexPath) -> Cell {
         return cells[indexPath.row]
+    }
+}
+
+extension EventListViewModel {
+    func didSelectRowAt(indexPath: IndexPath) {
+        switch cells[indexPath.row] {
+        case .eventCell(let eventCellViewModel):
+            eventCellViewModel.didSelect()
+        }
     }
 }
