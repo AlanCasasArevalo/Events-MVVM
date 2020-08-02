@@ -35,6 +35,13 @@ struct EventCellViewModel {
         return dateFormatter.string(from: dateEvent)
     }
 
+    var timeRemainingViewModel: TimeRemainingViewModel? {
+        guard let dateEvent = event.date else { return nil }
+        let timeRemainingParts = date.timeRemaining(endDate: dateEvent).components(separatedBy: ",")
+        let timeRemainingViewModel = TimeRemainingViewModel(timeRemainingParts: timeRemainingParts, mode: .cell)
+        return timeRemainingViewModel
+    }
+
     var eventName: String {
         guard let nameOfEvent = event.name else {
             return ""

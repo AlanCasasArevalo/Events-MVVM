@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EventDetailViewController" customModule="EventsApp" customModuleProvider="target">
             <connections>
                 <outlet property="backgroundImage" destination="XzE-Y0-rLR" id="12Y-gh-RdA"/>
+                <outlet property="timeRemainingStackView" destination="L0D-LJ-XWK" id="2ST-Md-CZ9"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,12 +22,17 @@
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XzE-Y0-rLR">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                 </imageView>
+                <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="110" placeholderIntrinsicHeight="200" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="L0D-LJ-XWK" customClass="TimeRemainingStackView" customModule="EventsApp" customModuleProvider="target">
+                    <rect key="frame" x="152" y="348" width="110" height="200"/>
+                </stackView>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="XzE-Y0-rLR" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="8YU-Dn-YV8"/>
                 <constraint firstItem="XzE-Y0-rLR" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Fc1-6Z-kix"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="XzE-Y0-rLR" secondAttribute="trailing" id="Sck-ZH-k4T"/>
+                <constraint firstItem="L0D-LJ-XWK" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="fSI-2V-Wuc"/>
+                <constraint firstItem="L0D-LJ-XWK" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="jmF-w9-zbw"/>
                 <constraint firstAttribute="bottom" secondItem="XzE-Y0-rLR" secondAttribute="bottom" id="ouK-0b-204"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>

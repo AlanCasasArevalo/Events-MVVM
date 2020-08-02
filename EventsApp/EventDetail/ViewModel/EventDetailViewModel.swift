@@ -7,6 +7,7 @@ final class EventDetailViewModel {
     private let coreDataManager: CoreDataManager
     private let eventId: NSManagedObjectID
     private(set) var event: Event?
+    let date = Date()
     var onUpdate = {}
 
     var image: UIImage? {
@@ -18,6 +19,13 @@ final class EventDetailViewModel {
     init(coreDataManager: CoreDataManager = .shared, eventId: NSManagedObjectID) {
         self.coreDataManager = coreDataManager
         self.eventId = eventId
+    }
+
+    var timeRemainingViewModel: TimeRemainingViewModel? {
+        guard let dateEvent = event?.date else { return nil }
+        let timeRemainingParts = date.timeRemaining(endDate: dateEvent).components(separatedBy: ",")
+        let timeRemainingViewModel = TimeRemainingViewModel(timeRemainingParts: timeRemainingParts, mode: .detail)
+        return timeRemainingViewModel
     }
 
     func viewDidDisappear() {
