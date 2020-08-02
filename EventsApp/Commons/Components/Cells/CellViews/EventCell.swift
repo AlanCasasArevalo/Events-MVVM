@@ -1,6 +1,3 @@
-//
-// Created by Everis on 01/08/2020.
-//
 
 import UIKit
 
@@ -68,6 +65,9 @@ final class EventCell: UITableViewCell {
     }
 
     func update(viewModel: EventCellViewModel) {
+        timeRemainingLabels.forEach {
+            $0.text = ""
+        }
         viewModel.timeRemainingString.enumerated().forEach {
             timeRemainingLabels[$0.offset].text = $0.element
         }
