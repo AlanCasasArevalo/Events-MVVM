@@ -46,6 +46,7 @@ final class EditEventAssembly: AssemblyProtocol {
         imagePickerAssembly.parentAssembly = self
         imagePickerAssembly.onFinishPicking = { image in
             completion(image)
+            self.navigationController.dismiss(animated: true)
         }
         assemblies.append(imagePickerAssembly)
         imagePickerAssembly.start()

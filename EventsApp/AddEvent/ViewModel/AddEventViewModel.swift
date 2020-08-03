@@ -19,7 +19,7 @@ final class AddEventViewModel {
     private var backgroundImageCellViewModel: TitleSubtitleCellViewModel?
 
     private var cellBuilder: EventCellBuilder
-    private var coreDataManager: CoreDataManager
+    private var eventService: EventServicesProtocol
 
     lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -27,9 +27,9 @@ final class AddEventViewModel {
         return dateFormatter
     }()
 
-    init(cellBuilder: EventCellBuilder, coreDataManager: CoreDataManager = CoreDataManager.shared) {
+    init(cellBuilder: EventCellBuilder, eventService: EventServicesProtocol = EventServices()) {
         self.cellBuilder = cellBuilder
-        self.coreDataManager = coreDataManager
+        self.eventService = eventService
     }
 
     func viewDidDisappear() {
@@ -84,7 +84,7 @@ extension AddEventViewModel {
               let image = backgroundImageCellViewModel?.image else {
             return
         }
-        coreDataManager.saveDataLocally(name: name, date: date, image: image)
+        eventService.performData(action: .add, inputData: .init(name: name, date: date, image: image))
         assembly?.didFinishSaveEvent()
     }
 

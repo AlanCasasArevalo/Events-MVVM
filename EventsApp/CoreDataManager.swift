@@ -17,52 +17,28 @@ final class CoreDataManager {
         persistentContainer.viewContext
     }
 
-    func saveDataLocally(name: String, date: Date, image: UIImage) {
-        let event = Event(context: manageObjectContext)
-
-        let resizedImage = image.sameAspectRation(newHeight: 250)
-
-        let imageData = resizedImage.jpegData(compressionQuality: 0.5)
-        event.setValue(name, forKey: CoreDataConstants.saveDataLocallyName)
-        event.setValue(date, forKey: CoreDataConstants.saveDataLocallyDate)
-        event.setValue(imageData, forKey: CoreDataConstants.saveDataLocallyImageData)
-
+    func getAllElementsSaved<T: NSManagedObject> () -> [T] {
         do {
-            try manageObjectContext.save()
+            let fetchRequest = NSFetchRequest<T>(entityName: "\(T.self)")
+            let results = try manageObjectContext.fetch(fetchRequest)
+            return results
         } catch let error {
             print(error)
+            return [T]()
         }
     }
 
-    func getAllElementsSaved() -> [Event] {
+    func getElementById <T: NSManagedObject> (elementId: NSManagedObjectID) -> T? {
         do {
-            let fetchRequest = NSFetchRequest<Event>(entityName: CoreDataConstants.entityName)
-            let events = try manageObjectContext.fetch(fetchRequest)
-            return events
-        } catch let error {
-            print(error)
-            return [Event]()
-        }
-    }
-
-    func getElementSavedById(elementId: NSManagedObjectID) -> Event? {
-        do {
-            let fetchRequest = NSFetchRequest<Event>(entityName: CoreDataConstants.entityName)
-            let event = try manageObjectContext.existingObject(with: elementId) as? Event
-            return event
+            let result = try manageObjectContext.existingObject(with: elementId) as? T
+            return result
         } catch let error {
             print(error)
             return nil
         }
     }
 
-    func updateDataLocally(event: Event, name: String, date: Date, image: UIImage) {
-        let resizedImage = image.sameAspectRation(newHeight: 250)
-        let imageData = resizedImage.jpegData(compressionQuality: 0.5)
-        event.setValue(name, forKey: CoreDataConstants.saveDataLocallyName)
-        event.setValue(date, forKey: CoreDataConstants.saveDataLocallyDate)
-        event.setValue(imageData, forKey: CoreDataConstants.saveDataLocallyImageData)
-
+    func save() {
         do {
             try manageObjectContext.save()
         } catch let error {

@@ -20,7 +20,7 @@ final class EditEventViewModel {
     private let event: Event
 
     private var cellBuilder: EventCellBuilder
-    private var coreDataManager: CoreDataManager
+    private var eventService: EventServicesProtocol
 
     lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -28,9 +28,9 @@ final class EditEventViewModel {
         return dateFormatter
     }()
 
-    init(cellBuilder: EventCellBuilder, coreDataManager: CoreDataManager = CoreDataManager.shared, event: Event) {
+    init(cellBuilder: EventCellBuilder, eventService: EventServicesProtocol = EventServices(), event: Event) {
         self.cellBuilder = cellBuilder
-        self.coreDataManager = coreDataManager
+        self.eventService = eventService
         self.event = event
     }
 
@@ -95,7 +95,7 @@ extension EditEventViewModel {
               let image = backgroundImageCellViewModel?.image else {
             return
         }
-        coreDataManager.updateDataLocally(event: event, name: name, date: date, image: image)
+        eventService.performData(action: .update(event), inputData: .init(name: name, date: date, image: image))
         assembly?.didFinishUpdateEvent()
     }
 

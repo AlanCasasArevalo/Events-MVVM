@@ -4,7 +4,7 @@ import CoreData
 final class EventDetailViewModel {
 
     weak var assembly: EventDetailAssembly?
-    private let coreDataManager: CoreDataManager
+    private var eventService: EventServicesProtocol
     private let eventId: NSManagedObjectID
     private(set) var event: Event?
     let date = Date()
@@ -16,8 +16,8 @@ final class EventDetailViewModel {
         return image
     }
 
-    init(coreDataManager: CoreDataManager = .shared, eventId: NSManagedObjectID) {
-        self.coreDataManager = coreDataManager
+    init(eventService: EventServicesProtocol = EventServices(), eventId: NSManagedObjectID) {
+        self.eventService = eventService
         self.eventId = eventId
     }
 
@@ -42,7 +42,7 @@ final class EventDetailViewModel {
     }
 
     func reload () {
-        event = coreDataManager.getElementSavedById(elementId: self.eventId)
+        event = eventService.getEvent(elementId: self.eventId)
         onUpdate()
     }
 
