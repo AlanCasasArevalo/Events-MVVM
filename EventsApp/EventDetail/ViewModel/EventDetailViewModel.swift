@@ -33,6 +33,15 @@ final class EventDetailViewModel {
     }
 
     func viewDidLoad() {
+       reload()
+    }
+
+    @objc func editButtonTapped() {
+        guard let event = event else { return }
+        assembly?.onEditEvent(event: event)
+    }
+
+    func reload () {
         event = coreDataManager.getElementSavedById(elementId: self.eventId)
         onUpdate()
     }

@@ -55,4 +55,18 @@ final class CoreDataManager {
             return nil
         }
     }
+
+    func updateDataLocally(event: Event, name: String, date: Date, image: UIImage) {
+        let resizedImage = image.sameAspectRation(newHeight: 250)
+        let imageData = resizedImage.jpegData(compressionQuality: 0.5)
+        event.setValue(name, forKey: CoreDataConstants.saveDataLocallyName)
+        event.setValue(date, forKey: CoreDataConstants.saveDataLocallyDate)
+        event.setValue(imageData, forKey: CoreDataConstants.saveDataLocallyImageData)
+
+        do {
+            try manageObjectContext.save()
+        } catch let error {
+            print(error)
+        }
+    }
 }

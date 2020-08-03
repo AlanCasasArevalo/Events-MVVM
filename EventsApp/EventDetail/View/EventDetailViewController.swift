@@ -19,8 +19,13 @@ class EventDetailViewController: UIViewController {
             self.backgroundImage.image = self.viewModel.image
             self.timeRemainingStackView.update(viewModel: timeRemainingViewModel)
         }
-
+        setupNavigation()
         viewModel.viewDidLoad()
+    }
+
+    func setupNavigation() {
+        let editButton = UIBarButtonItem(image: UIImage(systemName: "pencil"), style: .plain, target: viewModel, action: #selector(viewModel.editButtonTapped))
+        navigationItem.rightBarButtonItem = editButton
     }
 
     override func viewDidDisappear(_ animated: Bool) {

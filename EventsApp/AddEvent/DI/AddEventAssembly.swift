@@ -55,7 +55,7 @@ final class AddEventAssembly: AssemblyProtocol {
     }
 
     func didFinishSaveEvent () {
-        parentAssembly?.onSaveEvent()
+        parentAssembly?.onUpdateEvent()
         navigationController.dismiss(animated: true)
     }
 

@@ -5,6 +5,11 @@ import UIKit
 protocol AssemblyProtocol: class {
     var assemblies: [AssemblyProtocol] { get }
     func start()
+    func childDidFinish(assembly: AssemblyProtocol)
+}
+
+extension AssemblyProtocol {
+    func childDidFinish(assembly: AssemblyProtocol) {}
 }
 
 final class AppAssembly: AssemblyProtocol {

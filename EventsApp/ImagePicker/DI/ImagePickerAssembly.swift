@@ -5,7 +5,8 @@ final class ImagePickerAssembly: NSObject, AssemblyProtocol {
     private(set) var assemblies: [AssemblyProtocol] = []
 
     private var navigationController: UINavigationController
-    var parentAssembly: AddEventAssembly?
+    var parentAssembly: AssemblyProtocol?
+    var onFinishPicking: (UIImage) -> Void = { _ in }
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -29,7 +30,7 @@ final class ImagePickerAssembly: NSObject, AssemblyProtocol {
 extension ImagePickerAssembly: UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let image = info[.originalImage] as? UIImage {
-            parentAssembly?.didFinishPicking(image: image)
+            onFinishPicking(image)
         }
         parentAssembly?.childDidFinish(assembly: self)
     }

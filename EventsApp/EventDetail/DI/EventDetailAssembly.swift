@@ -9,6 +9,8 @@ final class EventDetailAssembly: AssemblyProtocol {
     private var modalNavigationController: UINavigationController?
     weak var parentAssembly: EventListAssembly?
     private let eventId: NSManagedObjectID
+    var onUpdateEvent = {
+    }
 
     init(navigationController: UINavigationController, eventId: NSManagedObjectID) {
         self.navigationController = navigationController
@@ -18,8 +20,13 @@ final class EventDetailAssembly: AssemblyProtocol {
     func start() {
         let eventDetailVC = EventDetailViewController.init()
         let eventDetailViewModel = EventDetailViewModel(eventId: eventId)
+        eventDetailViewModel.assembly = self
+        onUpdateEvent = {
+            eventDetailViewModel.reload()
+            self.parentAssembly?.onUpdateEvent()
+        }
         eventDetailVC.viewModel = eventDetailViewModel
-        navigationController.present(eventDetailVC, animated: true)
+        navigationController.pushViewController(eventDetailVC, animated: true)
     }
 
     func didFinish() {
@@ -32,6 +39,13 @@ final class EventDetailAssembly: AssemblyProtocol {
         }) {
             assemblies.remove(at: index)
         }
+    }
+
+    func onEditEvent(event: Event) {
+        let editEventAssembly = EditEventAssembly(navigationController: navigationController, event: event)
+        editEventAssembly.parentAssembly = self
+        assemblies.append(editEventAssembly)
+        editEventAssembly.start()
     }
 
     deinit {
