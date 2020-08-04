@@ -1,6 +1,3 @@
-//
-// Created by Everis on 02/08/2020.
-//
 
 import UIKit
 
