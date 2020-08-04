@@ -37,14 +37,14 @@ final class AddEventAssembly: AssemblyProtocol {
         self.completion = completion
         let imagePickerAssembly = ImagePickerAssembly(navigationController: modalNavigationController)
         imagePickerAssembly.parentAssembly = self
+        imagePickerAssembly.onFinishPicking = { image in
+            completion(image)
+            modalNavigationController.dismiss(animated: true)
+        }
         assemblies.append(imagePickerAssembly)
         imagePickerAssembly.start()
     }
 
-    func didFinishPicking( image: UIImage) {
-        completion(image)
-        modalNavigationController?.dismiss(animated: true)
-    }
 
     func childDidFinish(assembly: AssemblyProtocol) {
         if let index = assemblies.firstIndex(where: { firstAssembly -> Bool in
@@ -55,7 +55,7 @@ final class AddEventAssembly: AssemblyProtocol {
     }
 
     func didFinishSaveEvent () {
-        parentAssembly?.onSaveEvent()
+        parentAssembly?.onUpdateEvent()
         navigationController.dismiss(animated: true)
     }
 

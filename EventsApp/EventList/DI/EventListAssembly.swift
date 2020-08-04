@@ -6,7 +6,7 @@ import CoreData
 final class EventListAssembly: AssemblyProtocol {
     private(set) var assemblies: [AssemblyProtocol] = []
 
-    var onSaveEvent = {}
+    var onUpdateEvent = {}
 
     private var navigationController: UINavigationController
 
@@ -18,7 +18,7 @@ final class EventListAssembly: AssemblyProtocol {
         let eventListVC = EventListViewController.init()
         let eventListViewModel = EventListViewModel()
         eventListViewModel.assembly = self
-        onSaveEvent = eventListViewModel.reloadData
+        onUpdateEvent = eventListViewModel.reloadData
         eventListVC.viewModel = eventListViewModel
         navigationController.setViewControllers([eventListVC], animated: false)
     }
@@ -38,9 +38,14 @@ final class EventListAssembly: AssemblyProtocol {
         }
     }
 
-    func onSelect(id: NSManagedObjectID ) {
-        print(id)
+    func onSelect(eventId: NSManagedObjectID ) {
+        let eventDetail = EventDetailAssembly(navigationController: navigationController, eventId: eventId)
+        assemblies.append(eventDetail)
+        eventDetail.parentAssembly = self
+        eventDetail.start()
     }
+
+
 
 }
 

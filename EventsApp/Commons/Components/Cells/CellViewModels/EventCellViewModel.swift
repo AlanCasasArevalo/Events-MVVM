@@ -10,7 +10,7 @@ struct EventCellViewModel {
         self.event = event
     }
 
-    private static let imageCache = NSCache<NSString, UIImage>()
+    static let imageCache = NSCache<NSString, UIImage>()
     private let imageQueue = DispatchQueue(label: EventListConstants.imageQueue, qos: .background)
     private var cacheImageKey: String {
         event.objectID.description
@@ -33,6 +33,13 @@ struct EventCellViewModel {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMM yyyy"
         return dateFormatter.string(from: dateEvent)
+    }
+
+    var timeRemainingViewModel: TimeRemainingViewModel? {
+        guard let dateEvent = event.date else { return nil }
+        let timeRemainingParts = date.timeRemaining(endDate: dateEvent).components(separatedBy: ",")
+        let timeRemainingViewModel = TimeRemainingViewModel(timeRemainingParts: timeRemainingParts, mode: .cell)
+        return timeRemainingViewModel
     }
 
     var eventName: String {

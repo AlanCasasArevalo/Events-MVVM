@@ -5,7 +5,7 @@ final class EventListViewModel {
     var title = EventListConstants.eventListTitle
     weak var assembly: EventListAssembly?
 
-    private let coreDataManager: CoreDataManager
+    private let eventServices: EventServicesProtocol
     private(set) var cells: [EventListViewModel.Cell] = []
 
     var onUpdate = {
@@ -15,8 +15,8 @@ final class EventListViewModel {
         case eventCell(EventCellViewModel)
     }
 
-    init(coreDataManager: CoreDataManager = CoreDataManager.shared) {
-        self.coreDataManager = coreDataManager
+    init(eventServices: EventServicesProtocol = EventServices()) {
+        self.eventServices = eventServices
     }
 
     func viewDidLoad() {
@@ -24,7 +24,8 @@ final class EventListViewModel {
     }
 
     func reloadData() {
-        let events = coreDataManager.getAllElementsSaved()
+        EventCellViewModel.imageCache.removeAllObjects()
+        let events = eventServices.getAllEvent()
         cells = events.map { event in
             var eventCellViewModel = EventCellViewModel(event: event)
             if let assembly = assembly {
